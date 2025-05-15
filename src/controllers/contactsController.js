@@ -1,4 +1,3 @@
-// src/controllers/contactsController.js
 import { getAllContacts, getContactById } from '../services/contacts.js';
 
 export const getContactsController = async (req, res, next) => {
