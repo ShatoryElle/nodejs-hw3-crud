@@ -1,11 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
-
-import {
-  getContactsController,
-  getContactByIdController,
-} from './controllers/contactsController.js';
+import contactsRouter from './routers/contacts.js';
 
 export const setupServer = () => {
   const app = express();
@@ -22,18 +18,17 @@ export const setupServer = () => {
     }),
   );
 
-  app.get('/contacts', getContactsController);
+  // Підключення контактів
+  app.use('/contacts', contactsRouter);
 
-  app.get('/contacts/:contactId', getContactByIdController);
-
-  
-
+  // Обробка неіснуючих маршрутів
   app.use('*', (req, res) => {
     res.status(404).json({
       message: 'Not found',
     });
   });
 
+  // Обробка помилок
   app.use((err, req, res) => {
     res.status(500).json({
       message: 'Something went wrong',
